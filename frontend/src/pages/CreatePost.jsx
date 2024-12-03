@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, Textarea, FormControl, FormLabel } from '@chakra-ui/react';
+import MainLayout from '../layouts/MainLayout'
 
 const CreatePost = () => {
   const [content, setContent] = useState('');
@@ -39,33 +40,35 @@ const CreatePost = () => {
   };
 
   return (
-    <Box
-      maxW="400px"
-      mx="auto"
-      mt="50px"
-      p="20px"
-      bg="orange.50"
-      borderRadius="md"
-      boxShadow="md"
-    >
-      <form onSubmit={handleSubmit}>
-        <FormControl mb="4">
-          <FormLabel>文字を入力してください (任意)</FormLabel>
-          <Textarea
-            placeholder="投稿内容を入力"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </FormControl>
-        <FormControl mb="4">
-          <FormLabel>画像を選択してください</FormLabel>
-          <Input type="file" accept="image/*" onChange={handleImageChange} />
-        </FormControl>
-        <Button type="submit" colorScheme="orange" width="100%">
-          投稿する
-        </Button>
-      </form>
-    </Box>
+    <MainLayout>
+      <Box
+        maxW="400px"
+        mx="auto"
+        mt="50px"
+        p="20px"
+        bg="orange.50"
+        borderRadius="md"
+        boxShadow="md"
+      >
+        <form onSubmit={handleSubmit}>
+          <FormControl mb="4">
+            <FormLabel>文字を入力してください (任意)</FormLabel>
+            <Textarea
+              placeholder="投稿内容を入力"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </FormControl>
+          <FormControl mb="4">
+            <FormLabel>画像を選択してください</FormLabel>
+            <Input type="file" accept="image/*" onChange={handleImageChange} />
+          </FormControl>
+          <Button type="submit" colorScheme="orange" width="100%">
+            投稿する
+          </Button>
+        </form>
+      </Box>
+    </MainLayout>
   );
 };
 
