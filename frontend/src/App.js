@@ -1,5 +1,4 @@
-import Posts from "./component/page/Post";
-import axios from "axios";
+import Posts from "./pages/Posts.jsx";
 
 const App = () => {
   return (

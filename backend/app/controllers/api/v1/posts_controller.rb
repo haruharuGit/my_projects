@@ -23,7 +23,7 @@ class Api::V1::PostsController < ApplicationController
     {
       id: post.id,
       content: post.content,
-      image_url: url_for(post.image)
+      image_url: post.image.attached? ? url_for(post.image) : ""  # 画像がなければ空文字を返すことで投稿がないを防ぐ
     }
   end
 end
