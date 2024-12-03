@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Box, VStack, Spinner, Text, Button } from '@chakra-ui/react'
@@ -10,6 +11,8 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,6 +29,10 @@ const Posts = () => {
 
     fetchPosts();
   }, []);
+
+  const handleCreatePostClick = () => {
+    navigate('/create');
+  };
 
   return (
     <MainLayout>
@@ -44,14 +51,15 @@ const Posts = () => {
       </Box>
 
       <Button 
-      colorScheme='yellow' 
-      position='fixed' 
-      bottom={16} 
-      right={16}
-      zIndex={10}
-    >
-      Button
-    </Button>
+        colorScheme='yellow' 
+        position='fixed' 
+        bottom={16} 
+        right={16}
+        zIndex={10}
+        onClick={handleCreatePostClick}
+      >
+        Button
+      </Button>
     </MainLayout>
   )
 }
