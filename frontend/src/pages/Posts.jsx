@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { Box, VStack, Spinner, Text } from '@chakra-ui/react'
+import { Box, VStack, Spinner, Text, Button } from '@chakra-ui/react'
 import { IconButton } from '@chakra-ui/react'
 import MainLayout from '../layouts/MainLayout'
 import PostFeed from '../components/PostFeed'
@@ -11,22 +12,19 @@ const Posts = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3010/api/v1/posts')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setPosts(data);
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get('http://localhost:3010/api/v1/posts');
+        setPosts(response.data)
         setIsLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching posts:', error);
+      } catch (error) {
+        console.log('Error fetching posts:', error);
         setError(error.message);
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   return (
@@ -43,8 +41,17 @@ const Posts = () => {
             <Text textAlign='center'>投稿はありません。</Text>
           )}
         </VStack>
-        
       </Box>
+
+      <Button 
+      colorScheme='yellow' 
+      position='fixed' 
+      bottom={16} 
+      right={16}
+      zIndex={10}
+    >
+      Button
+    </Button>
     </MainLayout>
   )
 }
