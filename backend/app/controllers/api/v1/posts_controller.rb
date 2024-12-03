@@ -7,7 +7,7 @@ class Api::V1::PostsController < ApplicationController
   def create
     @post = Post.new(post_params)
     if @post.save
-      render json: post_json(@post), status: :created
+      render json: { message: '投稿が作成されました', post: post_json(@post) }, status: :created
     else
       render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
     end
