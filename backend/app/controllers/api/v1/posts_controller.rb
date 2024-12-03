@@ -1,6 +1,29 @@
 class Api::V1::PostsController < ApplicationController
   def index
-    posts = Post.all
-    render json: posts
+    @posts = Post.all
+    render json: @posts.map { |post| post_json(post) }
+  end
+
+  def create
+    @post = Post.new(post_params)
+    if @post.save
+      render json: post_json(@post), status: :created
+    else
+      render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:content, :image)
+  end
+
+  def post_json(post)
+    {
+      id: post.id,
+      content: post.content,
+      image_url: url_for(post.image)
+    }
   end
 end
