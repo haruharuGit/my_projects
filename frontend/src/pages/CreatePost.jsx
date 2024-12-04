@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, Textarea, FormControl, FormLabel } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout'
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const [content, setContent] = useState('');
@@ -10,6 +11,8 @@ const CreatePost = () => {
   const handleContentChange = event => setContent(event.target.value);
 
   const handleImageChange = event => setImage(event.target.files[0]);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,6 +34,7 @@ const CreatePost = () => {
         console.log("投稿が成功しました")
         setContent('');
         setImage(null);
+        navigate('/'); 
       } else {
         console.log("保存に失敗しました")
         const errorData = await response.json();
