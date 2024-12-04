@@ -5,15 +5,18 @@ import MainLayout from '../layouts/MainLayout'
 const CreatePost = () => {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [submittedData, setSubmittedData] = useState([]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleContentChange = event => setContent(event.target.value);
+
+  const handleImageChange = event => setImage(event.target.files[0]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     const formData = new FormData();
-    formData.append('content', content);
-    if (image) {
-      formData.append('image', image);
-    }
+    formData.append('post[content]', content);
+    formData.append('post[image]', image);
 
     try {
       const response = await fetch('http://localhost:3010/api/v1/posts', {
@@ -22,23 +25,23 @@ const CreatePost = () => {
       });
 
       if (response.ok) {
-        alert('投稿が成功しました！');
+        const data = await response.json();
+
+        setSubmittedData([...submittedData, data]);
+        console.log("投稿が成功しました")
         setContent('');
         setImage(null);
       } else {
+        console.log("保存に失敗しました")
         const errorData = await response.json();
         alert(`投稿に失敗しました: ${errorData.errors.join(', ')}`);
       }
     } catch (error) {
-      console.error('エラーが発生しました:', error);
+      console.log('エラーが発生しました:', error);
       alert('投稿に失敗しました。');
     }
   };
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
+  
   return (
     <MainLayout>
       <Box
@@ -55,8 +58,9 @@ const CreatePost = () => {
             <FormLabel>文字を入力してください (任意)</FormLabel>
             <Textarea
               placeholder="投稿内容を入力"
+              type="text"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleContentChange}
             />
           </FormControl>
           <FormControl mb="4">
