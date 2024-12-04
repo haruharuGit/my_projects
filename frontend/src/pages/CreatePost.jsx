@@ -68,7 +68,7 @@ const CreatePost = () => {
             />
           </FormControl>
           <FormControl mb="4">
-            <FormLabel>画像を選択してください</FormLabel>
+            <FormLabel>画像を選択してください (必須)</FormLabel>
             <Input type="file" accept="image/*" onChange={handleImageChange} />
           </FormControl>
           <Button type="submit" colorScheme="orange" width="100%">
