@@ -58,45 +58,10 @@ const Posts = () => {
         zIndex={10}
         onClick={handleCreatePostClick}
       >
-        Button
+        投稿する
       </Button>
     </MainLayout>
   )
 }
 
 export default Posts
-
-/*
-const Posts = () => {
-  const [posts, setPosts] = useState([]); // postsの状態を管理
-
-  useEffect(() => {
-    // APIからデータを取得
-    fetch('http://localhost:3010/api/v1/posts') // APIのエンドポイントURL
-      .then(response => response.json()) // レスポンスをJSONに変換
-      .then(data => setPosts(data)) // 取得したデータをstateにセット
-      .catch(error => console.error('Error fetching posts:', error));
-  }, []); // コンポーネントが初めてレンダリングされたときにのみ実行
-
-  return (
-    <Box minH="100vh" bg="gray.50">
-      <Header />
-      <div>
-        <h1>投稿一覧</h1>
-        {/* 投稿が存在する場合に一覧を表示
-        {posts.length > 0 ? (
-          posts.map(post => (
-            <div key={post.id} className="post">
-              <p>{post.content}</p>
-              {post.image_url && <img src={post.image_url} alt="投稿が表示できません" />} {/* 画像があれば表示
-            </div>
-          ))
-        ) : (
-          <p>投稿はありません。</p>
-        )}
-      </div>
-    </Box>
-  );
-};
-
-export default Posts; */
