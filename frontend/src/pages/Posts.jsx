@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { Box, VStack, Spinner, Text, Button } from '@chakra-ui/react'
-import { IconButton } from '@chakra-ui/react'
 import MainLayout from '../layouts/MainLayout'
 import PostFeed from '../components/PostFeed'
 
