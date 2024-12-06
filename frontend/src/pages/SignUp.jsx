@@ -27,7 +27,7 @@ const SignUp = () => {
         formData
       );
 
-      console.log("User signed up successfully:", response.data);
+      console.log("新規登録に成功しました", response.data);
 
       // トークンをlocalStorageに保存
       localStorage.setItem("access-token", response.headers["access-token"]);
@@ -40,7 +40,7 @@ const SignUp = () => {
       });
       navigate('/'); 
     } catch (err) {
-      console.error("Error during signup:", err.response.data.errors);
+      console.error("新規登録に失敗しました", err.response.data.errors);
       setError(err.response.data.errors.full_messages.join(", "));
     }
   };
