@@ -1,4 +1,5 @@
 class Api::V1::PostsController < ApplicationController
+
   def index
     @posts = Post.all
     render json: @posts.map { |post| post_json(post) }
