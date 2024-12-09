@@ -46,7 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_08_235213) do
   end
 
   create_table "profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name", null: false
+    t.string "nickname", null: false
     t.integer "kid_birthday", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
