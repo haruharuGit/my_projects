@@ -21,7 +21,7 @@ const SignUp = () => {
       localStorage.setItem("uid", headers["uid"]);
 
       alert('登録が成功しました');
-      navigate('/'); 
+      navigate('/profile/create'); 
     } catch (error) {
       console.error("Registration failed:", error.response?.data || error.message);
       alert("登録に失敗しました");
