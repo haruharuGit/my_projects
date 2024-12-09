@@ -3,6 +3,6 @@ class Profile < ApplicationRecord
 
   with_options presence: true do
     validates :nickname, length: { maximum: 10 }
-    validates :kid_birthday, numericality
+    validates :kid_birthday, numericality: { only_integer: true }
   end
 end
