@@ -1,8 +1,7 @@
 class Api::V1::ProfilesController < ApplicationController
+  before_action :authenticate_api_v1_user!
   def create
-    user = User.find(params[:user_id])
-
-    profile = user.build_profile(profile_params)
+    profile = current_api_v1_user.build_profile(profile_params)
 
     if profile.save
       render json: { message: 'プロフィールが投稿できました', profile: profile_json(profile) }, status: :created
