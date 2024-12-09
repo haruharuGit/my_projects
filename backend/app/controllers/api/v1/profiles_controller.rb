@@ -1,10 +1,13 @@
 class Api::V1::ProfilesController < ApplicationController
   def create
-    @profile = Profile.new(profile_params)
-    if @profile.save
-      render json: { message: 'プロフィールが投稿できました', profile: profile_json(@profile) }, status: :created
+    user = User.find(params[:user_id])
+
+    profile = user.build_profile(profile_params)
+
+    if profile.save
+      render json: { message: 'プロフィールが投稿できました', profile: profile_json(profile) }, status: :created
     else
-      render json: { errors: @profile.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: profile.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -18,8 +21,8 @@ class Api::V1::ProfilesController < ApplicationController
     {
       id: profile.id,
       nickname: profile.nickname,
-      kid_birthday: profile.kid_birthday
-
+      kid_birthday: profile.kid_birthday,
+      user_id: profile.user_id
     }
   end
 end
