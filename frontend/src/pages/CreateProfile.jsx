@@ -1,72 +1,96 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Input, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Button, Input, FormControl, FormLabel, FormHelperText } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-const CreateProfile = () => {
+
+export default function NewProfile() {
   const [nickname, setNickname] = useState('');
   const [kidBirthday, setKidBirthday] = useState('');
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // current_userのidをrailsから取得
   useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const response = await axios.get('http://localhost:3010/api/v1/users/check_user');
-        if (response.status === 200) {
-          setUserId(response.data.user_id);
+    fetchGetUserId();
+  }
+  , []);
+
+  const accessToken = localStorage.getItem('access-token');
+  const client = localStorage.getItem('client');
+  const uid = localStorage.getItem('uid');
+  
+  if (!accessToken || !client || !uid) {
+    console.error('認証情報が見つかりません');
+    alert('認証情報が見つかりません。ログインし直してください。');
+    return;
+  }
+
+  async function fetchGetUserId() {
+    try {
+      const res = await axios.get("http://localhost:3010/api/v1/users/check_user_id", {
+        headers: {
+          'access-token': localStorage.getItem('access-token'),
+          'client': localStorage.getItem('client'),
+          'uid': localStorage.getItem('uid'),
         }
-      } catch (error) {
-        console.error('ユーザーIDの取得に失敗しました:', error);
-        alert('ユーザーIDの取得に失敗しました');
+      });
+
+      if (!res.status || (res.status < 200 && res.status >= 300)) {
+        throw new Error(`HTTP error! status: ${res.status}`);
       }
-    };
 
-    fetchUserId();
-  }, []);
-
-  const handleNicknameChange = (event) => setNickname(event.target.value);
-  const handleKidBirthdayChange = (event) => setKidBirthday(event.target.value);
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!userId) {
-      alert('ユーザー情報が取得できませんでした');
-      return;
+      setUserId(res.data.id);
+      console.log(res.data.id)
     }
+    catch (error) {
+      console.error('Error creating credos:', error);
+      alert('ユーザーIDの取得に失敗しました。');
+    }
+  }
 
-    const profileData = {
-      profile: {
-        nickname,
-        kid_birthday: kidBirthday,
-        user_id: userId
-      }
-    };
+  async function fetchCreateProfile(event) {
+    event.preventDefault();
+    setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        'http://localhost:3010/api/v1/profiles',
-        profileData
-      );
-
-      if (response.status === 200) {
-        console.log("プロフィールが作成されました:", response.data);
-        setNickname('');
-        setKidBirthday('');
-        navigate('/');
-      } else {
-        console.log("保存に失敗しました");
-        alert('プロフィール作成に失敗しました。');
+      if (!nickname || !kidBirthday) {
+        alert('すべてのフォームを入力して下さい。')
+        return;
       }
-    } catch (error) {
-      console.log('エラーが発生しました:', error);
-      const errorMessage = error.response?.data?.message || 'プロフィール作成に失敗しました。';
-      alert('プロフィール作成に失敗しました。', errorMessage);
+
+      const res = await axios.post('http://localhost:3010/api/v1/profiles', {
+        profile: {
+          nickname: nickname,
+          kid_birthday: kidBirthday,
+          user_id: userId,
+        },},
+        {
+          headers: {
+            'access-token': localStorage.getItem('access-token'),
+            'client': localStorage.getItem('client'),
+            'uid': localStorage.getItem('uid'),
+        }
+      });
+
+      if (!res.status || (res.status < 200 || res.status >= 300)) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      alert('プロフィールを登録しました。');
+      navigate('/');
     }
-  };
+    catch (error) {
+      console.error('Error creating profile:', error);
+      alert('プロフィールの登録に失敗しました。');
+    }
+    finally {
+      setIsLoading(false);
+      setNickname('');
+      setKidBirthday('');
+    }
+  }
 
   return (
     <MainLayout>
@@ -79,26 +103,32 @@ const CreateProfile = () => {
         borderRadius="md"
         boxShadow="md"
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={fetchCreateProfile}>
           <FormControl mb="4" isRequired>
             <FormLabel>ニックネーム (必須)</FormLabel>
             <Input
               placeholder="ニックネームを入力"
-              type="text"
               value={nickname}
-              onChange={handleNicknameChange}
+              onChange={(e) => setNickname(e.target.value)}
             />
           </FormControl>
           <FormControl mb="4" isRequired>
-            <FormLabel>子どもの生年月日 (必須)</FormLabel>
+            <FormLabel>子どもの誕生日 (必須)</FormLabel>
             <Input
               placeholder="生年月日を入力 (例: YYYY-MM-DD)"
               type="date"
               value={kidBirthday}
-              onChange={handleKidBirthdayChange}
+              onChange={(e) => setKidBirthday(e.target.value)}
             />
+            <FormHelperText>例: 2020-01-01</FormHelperText>
           </FormControl>
-          <Button type="submit" colorScheme="orange" width="100%">
+          <Button
+            type="submit"
+            colorScheme="orange"
+            width="100%"
+            disabled={!nickname || !kidBirthday  || !userId}
+            isLoading={isLoading}
+          >
             プロフィールを作成
           </Button>
         </form>
@@ -106,5 +136,3 @@ const CreateProfile = () => {
     </MainLayout>
   );
 };
-
-export default CreateProfile;
