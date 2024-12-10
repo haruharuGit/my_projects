@@ -27,7 +27,7 @@ const Header = () => {
       <Flex h="14" alignItems="center" justifyContent="space-between" maxW="container.xl" mx="auto" px={4}>
         {/* <Link href="/" passHref> */}
           <Heading as="h1" size="lg">
-            リアルTWO
+            いや！シェア
           </Heading>
         {/* </Link> */}
         <Flex alignItems="center" gap={4}>

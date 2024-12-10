@@ -30,7 +30,7 @@ export default function LandingPage() {
                 fontWeight="bold"
                 textAlign="center"
               >
-                リアルTWO
+                いや！シェア
               </Heading>
               <Text 
                 fontSize={{ base: 'md', lg: 'lg' }} 
