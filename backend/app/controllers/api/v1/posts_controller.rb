@@ -1,16 +1,17 @@
 class Api::V1::PostsController < ApplicationController
 
   def index
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc)
     render json: @posts.map { |post| post_json(post) }
   end
 
   def create
-    @post = Post.new(post_params)
-    if @post.save
-      render json: { message: '投稿が作成されました', post: post_json(@post) }, status: :created
+    post = Post.new(post_params)
+    post.user = current_api_v1_user
+    if post.save
+      render json: post, status: :created
     else
-      render json: { errors: @post.errors.full_messages }, status: :unprocessable_entity
+      render json: post.errors, status: :unprocessable_entity
     end
   end
 

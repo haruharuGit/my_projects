@@ -2,31 +2,55 @@ import React, { useState } from "react";
 import { Box, Button, Input, FormControl, FormLabel } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout'
 import { useNavigate } from "react-router-dom";
-import { registerUser } from '../api/auth';
+import axios from 'axios';
 
-const SignUp = () => {
+export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [password_confirmation, setPasswordConfirmation] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  async function fetchCreateUser(event) {
+    event.preventDefault();
+    setIsLoading(true);
+
     try {
-      const response = await registerUser(email, password, passwordConfirmation);
-      const { headers } = response;
+      if (!email || !password || !password_confirmation) {
+        alert('名前、メールアドレス、パスワードを入力して下さい。');
+        return;
+      }
 
-      localStorage.setItem("access-token", headers["access-token"]);
-      localStorage.setItem("client", headers["client"]);
-      localStorage.setItem("uid", headers["uid"]);
+      const res = await axios.post("http://localhost:3010/api/v1/auth", {
+        email, password, password_confirmation
+      });
 
-      alert('登録が成功しました');
-      navigate('/profile/create'); 
-    } catch (error) {
-      console.error("Registration failed:", error.response?.data || error.message);
-      alert("登録に失敗しました");
+      if (!res.status || (res.status < 200 && res.status >= 300)) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      localStorage.setItem('access-token', res.data['access_token']);
+      localStorage.setItem('client', res.data['client']);
+      localStorage.setItem('uid', res.data['uid']);
+
+      console.log(localStorage.getItem('access-token'));
+      console.log(localStorage.getItem('client'));
+      console.log(localStorage.getItem('uid'));
+
+      alert('新規登録しました。');
+      navigate('/profile/create');
     }
-  };
+    catch (error) {
+      console.error('Error creating credos:', error);
+      alert('新規登録に失敗しました。');
+    }
+    finally {
+      setIsLoading(false);
+      setEmail('');
+      setPassword('');
+      setPasswordConfirmation('');
+    }
+  }
 
   return (
     <MainLayout>
@@ -40,13 +64,10 @@ const SignUp = () => {
         boxShadow="md"
       >
       <h2>アカウント登録</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={fetchCreateUser}>
         <FormControl isRequired>
-          <FormLabel htmlFor="email">メールアドレス (必須)</FormLabel>
+          <FormLabel>メールアドレス (必須)</FormLabel>
           <Input
-            id="email"
-            name="email"
-            type="email"
             value={email}
             placeholder="メールアドレスを入力"
             onChange={(e) => setEmail(e.target.value)}
@@ -54,10 +75,8 @@ const SignUp = () => {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel htmlFor="password">パスワード (必須)</FormLabel>
+          <FormLabel>パスワード (必須)</FormLabel>
           <Input
-            id="password"
-            name="password"
             type="password"
             value={password}
             placeholder="パスワードを入力"
@@ -66,18 +85,22 @@ const SignUp = () => {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel htmlFor="password_confirmation">パスワード (確認用)</FormLabel>
+          <FormLabel>パスワード (確認用)</FormLabel>
           <Input
-            id="password_confirmation"
-            name="password_confirmation"
-            type="password_confirmation"
-            value={passwordConfirmation}
+            type="password"
+            value={password_confirmation}
             placeholder="パスワード(確認用)を入力"
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
           />
         </FormControl>
-        <Button type="submit" colorScheme="orange" width="100%">
+        <Button
+          colorScheme="orange"
+          width="100%"
+          isLoading={isLoading} 
+          disabled={!email || !password || !password_confirmation}
+          type="submit"
+        >
           登録する
         </Button>
       </form>
@@ -85,5 +108,3 @@ const SignUp = () => {
     </MainLayout>
   );
 };
-
-export default SignUp;
