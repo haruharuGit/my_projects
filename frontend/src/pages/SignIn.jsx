@@ -1,31 +1,61 @@
 import React, { useState } from "react";
-import { Box, Button, Input, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Button, Input, FormControl, FormLabel, Text } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout'
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../api/auth";
+import axios from 'axios';
 
-const SignIn = () => {
+export default function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [messageStatus, setMessageStatus] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setIsLoading(true);
+    setMessage('');
+
     try {
-      const response = await loginUser(email, password);
-      const { headers } = response;
-
-      localStorage.setItem("access-token", headers["access-token"]);
-      localStorage.setItem("client", headers["client"]);
-      localStorage.setItem("uid", headers["uid"]);
-
-      alert('ログインに成功しました');
-      navigate('/');
-    } catch (error) {
-      console.error("ログインに失敗しました", error.response?.data || error.message);
-      alert("ログインに失敗しました");
+      if (!email || !password) {
+        setMessage('メールアドレス、パスワードを入力をして下さい。');
+        setMessageStatus('error');
+        return;
     }
-  };
+
+    const res = await axios.post("http://localhost:3010/api/v1/auth/sign_in", {
+      email, password
+    });
+
+    if (!res.status || (res.status < 200 && res.status >= 300)) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+
+    localStorage.setItem('access-token', res.headers['access-token']);
+    localStorage.setItem('client', res.headers['client']);
+    localStorage.setItem('uid', res.headers['uid']);
+
+    console.log(localStorage.getItem('access-token'));
+    console.log(localStorage.getItem('client'));
+    console.log(localStorage.getItem('uid'));
+
+    setMessage('ログインしました。');
+    setMessageStatus('success');
+    navigate('/');
+    }
+    catch (error) {
+      console.error('Error creating credos:', error);
+      setMessage('ログインに失敗しました。');
+      setMessageStatus('error');
+    }
+    finally {
+      setIsLoading(false);
+      setEmail('');
+      setPassword('');
+    }
+  }
 
   return (
     <MainLayout>
@@ -38,14 +68,16 @@ const SignIn = () => {
         borderRadius="md"
         boxShadow="md"
       >
+        {message && (
+          <Text color={messageStatus === 'error' ? 'red.500' : 'green.500'} mb="4">
+            {message}
+          </Text>
+        )}
         <h2>ログイン</h2>
         <form onSubmit={handleSubmit}>
           <FormControl isRequired>
-            <FormLabel htmlFor="email">メールアドレス (必須)</FormLabel>
+            <FormLabel>メールアドレス (必須)</FormLabel>
             <Input
-              id="email"
-              name="email"
-              type="email"
               value={email}
               placeholder="メールアドレスを入力"
               onChange={(e) => setEmail(e.target.value)}
@@ -53,10 +85,8 @@ const SignIn = () => {
             />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel htmlFor="password">パスワード (必須)</FormLabel>
+            <FormLabel>パスワード (必須)</FormLabel>
             <Input
-              id="password"
-              name="password"
               type="password"
               value={password}
               placeholder="パスワードを入力"
@@ -64,7 +94,13 @@ const SignIn = () => {
               required
             />
           </FormControl>
-          <Button type="submit" colorScheme="orange" width="100%">
+          <Button
+            type="submit"
+            colorScheme="orange"
+            width="100%"
+            isLoading={isLoading}
+            disabled={!email || !password}
+          >
             ログイン
           </Button>
         </form>
@@ -72,5 +108,3 @@ const SignIn = () => {
     </MainLayout>
   );
 };
-
-export default SignIn;
