@@ -4,7 +4,7 @@ import Posts from './pages/Posts';
 import CreatePost from './pages/CreatePost';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
-import CreateProfile from './pages/CreateProfile';
+import NewProfile from './pages/CreateProfile';
 
 const App = () => {
   return (
@@ -14,7 +14,7 @@ const App = () => {
         <Route path="/create" element={<CreatePost />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/profile/create" element={<CreateProfile />} />
+        <Route path="/profile/create" element={<NewProfile />} />
       </Routes>
     </BrowserRouter>
   );
