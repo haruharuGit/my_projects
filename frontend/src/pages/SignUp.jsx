@@ -38,7 +38,7 @@ export default function SignUp() {
       console.log(localStorage.getItem('uid'));
 
       alert('新規登録しました。');
-      navigate('/');
+      navigate('/profile/create');
     }
     catch (error) {
       console.error('Error creating credos:', error);
