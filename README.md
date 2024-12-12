@@ -2,7 +2,7 @@
 いや！シェア
 
 ## アプリケーション概要
-イヤイヤ期と言われる2〜3歳前後の子どもを持つ親が、
+イヤイヤ期と言われる2〜3歳前後の子どもを持つ親が、気持ちを共有し励まし合えるポジティブなSNS
 
 ## URL
 
@@ -25,13 +25,19 @@ snsで時々、笑いに変えている母親をみて、せっかくのこの�
 ２歳児のイヤイヤと向き合っているお母さんたちが孤独にならないよう、共感し、励まし、笑いを提供し合いながら繋がれる批判のないSNSがあったらいいなと思った。
 
 ## 洗い出した要件
+<img src="https://i.gyazo.com/9a778ab98f7937866f6a4be156b5ab30.png" width="500">
+<img src="https://i.gyazo.com/01b051184dcb04bdfe1c7d94e852daf6.png" width="500">
 
 ## 実装した機能についての画像やGIFおよびその説明
 |ページ|説明|
 |---|---|
-|![](画像のURL)|説明|
-|![](画像のURL)|説明|
-|![](画像のURL)|説明|
+|<img src="https://i.gyazo.com/6a09b40729f2a14d2301c634400e2ce7.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/512113838b38577bce1278c2d30d7335.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/415fd07d11988b1f11a0104313b2177e.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/c77984038738885709b25d8b903dded3.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/2893bd9e5ca27a9215c82ad7b2f40852.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/6f5999445af632a1c310c3bfa5af39e5.png" width="300"/>|説明|
+|<img src="https://i.gyazo.com/45c554524ddbe1e6b7c514dad843dc8f.png" width="300"/>|説明|
 
 ## 実装予定の機能
 現在、登録ユーザーのアバター機能を実装中
