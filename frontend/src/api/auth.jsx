@@ -3,7 +3,7 @@ import axios from "axios";
 // 新規登録
 export const registerUser = async (email, password, passwordConfirmation) => {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth`, {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth`, {
       email,
       password,
       password_confirmation: passwordConfirmation,
@@ -17,7 +17,7 @@ export const registerUser = async (email, password, passwordConfirmation) => {
 // ログイン
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/sign_in`, {
+    const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/sign_in`, {
       email,
       password,
     });
@@ -30,7 +30,7 @@ export const loginUser = async (email, password) => {
 //ログアウト
 export const logoutUser = async () => {
   try {
-    const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/auth//sign_out`, {
+    const response = await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/sign_out`, {
       headers: {
         "access-token": localStorage.getItem("access-token"),
         client: localStorage.getItem("client"),

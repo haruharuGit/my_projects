@@ -25,7 +25,7 @@ export default function SignIn() {
         return;
     }
 
-    const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/sign_in`, {
+    const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/sign_in`, {
       email, password
     });
 

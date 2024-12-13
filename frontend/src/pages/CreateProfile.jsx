@@ -29,7 +29,7 @@ export default function NewProfile() {
 
   async function fetchGetUserId() {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/check_user_id`, {
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/check_user_id`, {
         headers: {
           'access-token': localStorage.getItem('access-token'),
           'client': localStorage.getItem('client'),

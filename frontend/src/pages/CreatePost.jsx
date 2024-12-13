@@ -17,7 +17,7 @@ const CreatePost = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/check_user_id`, {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/check_user_id`, {
           headers: {
             'access-token': localStorage.getItem('access-token'),
             'client': localStorage.getItem('client'),
