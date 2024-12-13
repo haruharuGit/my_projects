@@ -55,7 +55,7 @@ const CreatePost = () => {
     formData.append('post[user_id]', userId);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/posts`, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/posts`, formData, {
         headers: {
           'access-token': localStorage.getItem('access-token'),
           'client': localStorage.getItem('client'),
