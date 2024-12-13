@@ -62,3 +62,7 @@
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+
+# APIの環境変数設定
+/front/.env.development
+/front/.env.production
