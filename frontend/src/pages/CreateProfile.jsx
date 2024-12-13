@@ -60,7 +60,7 @@ export default function NewProfile() {
         return;
       }
 
-      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/profiles`, {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}api/v1/profiles`, {
         profile: {
           nickname: nickname,
           kid_birthday: kidBirthday,
