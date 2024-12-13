@@ -21,7 +21,7 @@ export default function SignUp() {
         return;
       }
 
-      const res = await axios.post("http://localhost:3010/api/v1/auth", {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth`, {
         email, password, password_confirmation
       });
 

@@ -29,7 +29,7 @@ export default function NewProfile() {
 
   async function fetchGetUserId() {
     try {
-      const res = await axios.get("http://localhost:3010/api/v1/users/check_user_id", {
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/check_user_id`, {
         headers: {
           'access-token': localStorage.getItem('access-token'),
           'client': localStorage.getItem('client'),
@@ -60,7 +60,7 @@ export default function NewProfile() {
         return;
       }
 
-      const res = await axios.post('http://localhost:3010/api/v1/profiles', {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/profiles`, {
         profile: {
           nickname: nickname,
           kid_birthday: kidBirthday,
@@ -79,7 +79,7 @@ export default function NewProfile() {
       }
 
       alert('プロフィールを登録しました。');
-      navigate('/');
+      navigate('/index');
     }
     catch (error) {
       console.error('Error creating profile:', error);

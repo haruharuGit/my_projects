@@ -17,7 +17,7 @@ const CreatePost = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get('http://localhost:3010/api/v1/users/check_user_id', {
+        const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/check_user_id`, {
           headers: {
             'access-token': localStorage.getItem('access-token'),
             'client': localStorage.getItem('client'),
@@ -55,7 +55,7 @@ const CreatePost = () => {
     formData.append('post[user_id]', userId);
 
     try {
-      const response = await axios.post('http://localhost:3010/api/v1/posts', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/posts`, formData, {
         headers: {
           'access-token': localStorage.getItem('access-token'),
           'client': localStorage.getItem('client'),
@@ -69,7 +69,7 @@ const CreatePost = () => {
         console.log("投稿が成功しました");
         setContent('');
         setImage(null);
-        navigate('/');
+        navigate('/index');
       } else {
         console.log("保存に失敗しました");
         alert('投稿に失敗しました');

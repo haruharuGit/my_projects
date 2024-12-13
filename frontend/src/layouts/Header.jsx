@@ -6,15 +6,15 @@ import { logoutUser } from "../api/auth";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  const hideLogoutPaths = ["/home", "/signup", "/signin", "/profile/create"];
+  
+  const hideLogoutPaths = ["/signup", "/signin", "/profile/create"];
   const shouldHideLogout = hideLogoutPaths.includes(location.pathname);
 
   const handleLogout = async () => {
     try {
       const response = await logoutUser();
       console.log("Logout response:", response);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       if (error.response) {
         console.log("Server error:", error.response.data);

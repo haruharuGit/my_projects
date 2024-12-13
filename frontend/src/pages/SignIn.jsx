@@ -25,7 +25,7 @@ export default function SignIn() {
         return;
     }
 
-    const res = await axios.post("http://localhost:3010/api/v1/auth/sign_in", {
+    const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/sign_in`, {
       email, password
     });
 
@@ -43,7 +43,7 @@ export default function SignIn() {
 
     setMessage('ログインしました。');
     setMessageStatus('success');
-    navigate('/');
+    navigate('/index');
     }
     catch (error) {
       console.error('Error creating credos:', error);
