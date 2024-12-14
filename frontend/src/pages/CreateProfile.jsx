@@ -42,7 +42,6 @@ export default function NewProfile() {
       }
 
       setUserId(res.data.id);
-      console.log(res.data.id)
     }
     catch (error) {
       console.error('Error creating credos:', error);

@@ -36,10 +36,11 @@ export default function SignIn() {
     localStorage.setItem('access-token', res.headers['access-token']);
     localStorage.setItem('client', res.headers['client']);
     localStorage.setItem('uid', res.headers['uid']);
-
-    console.log(localStorage.getItem('access-token'));
-    console.log(localStorage.getItem('client'));
-    console.log(localStorage.getItem('uid'));
+ 
+    //確認用、一旦コメントアウト、後で削除
+    // console.log(localStorage.getItem('access-token'));
+    // console.log(localStorage.getItem('client'));
+    // console.log(localStorage.getItem('uid'));
 
     setMessage('ログインしました。');
     setMessageStatus('success');

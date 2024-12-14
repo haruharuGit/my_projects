@@ -33,9 +33,10 @@ export default function SignUp() {
       localStorage.setItem('client', res.data['client']);
       localStorage.setItem('uid', res.data['uid']);
 
-      console.log(localStorage.getItem('access-token'));
-      console.log(localStorage.getItem('client'));
-      console.log(localStorage.getItem('uid'));
+      //確認用、一旦コメントアウト、後ほど削除
+      //console.log(localStorage.getItem('access-token'));
+      //console.log(localStorage.getItem('client'));
+      //console.log(localStorage.getItem('uid'));
 
       alert('新規登録しました。');
       navigate('/profile/create');

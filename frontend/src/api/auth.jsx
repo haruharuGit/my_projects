@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// 新規登録
+// 新規登録：未使用：後ほど移植してくる
 export const registerUser = async (email, password, passwordConfirmation) => {
   try {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth`, {
@@ -14,7 +14,7 @@ export const registerUser = async (email, password, passwordConfirmation) => {
   }
 };
 
-// ログイン
+// ログイン：未使用：後ほど移植してくる
 export const loginUser = async (email, password) => {
   try {
     const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/auth/sign_in`, {
