@@ -2,6 +2,9 @@ class Api::V1::ProfilesController < ApplicationController
   # before_action :authenticate_api_v1_user!
   before_action :set_user
 
+  def show
+  end
+
   def create
     profile = Profile.new(profile_params)
     if profile.save
