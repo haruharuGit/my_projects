@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Flex, Heading, Button, Avatar } from "@chakra-ui/react"
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { logoutUser } from "../api/auth";
 
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
+  // ログイン、ログアウトに応じたログアウトボタンの表示
   const hideLogoutPaths = ["/signup", "/signin", "/profile/create"];
   const shouldHideLogout = hideLogoutPaths.includes(location.pathname);
 

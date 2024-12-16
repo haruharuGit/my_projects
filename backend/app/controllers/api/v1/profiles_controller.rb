@@ -3,12 +3,8 @@ class Api::V1::ProfilesController < ApplicationController
   before_action :set_user
 
   def show
-    profile = @user.profile
-    if profile
-      render json: profile, status: :ok
-    else
-      render json: { error: 'Profile not found'}, status: :not_found
-    end
+    profile = Profile.find(params[:id])
+    render json: profile
   end
 
   def create
