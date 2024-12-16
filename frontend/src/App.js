@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import NewProfile from './pages/CreateProfile';
 import Home from './pages/Home'
+import MyPage from './pages/MyPage'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/profile/create" element={<NewProfile />} />
+        <Route path="/profile" element={<MyPage />} />
       </Routes>
     </BrowserRouter>
   );
