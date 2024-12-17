@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react'
 import { Box, VStack, Spinner, Text, Button } from '@chakra-ui/react'
 import MainLayout from '../layouts/MainLayout'
 import PostFeed from '../components/PostFeed'
+import { useAuthUserId } from "../api/auth";
 
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const { userId, isLoading: userLoading, error: userError } = useAuthUserId();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,12 +31,15 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
+  if (userLoading) return <p>ユーザー情報を取得中...</p>;
+  if (userError) return <p>ユーザー認証エラー: {userError}</p>;
+
   const handleCreatePostClick = () => {
     navigate('/create');
   };
 
   return (
-    <MainLayout>
+    <MainLayout userId={userId}>
       <Box position='relative' pb={20}>
         <VStack spacing={4} align='stretch' w='100%' maxW='600px' mx='auto' p={4}>
           {isLoading ? (
