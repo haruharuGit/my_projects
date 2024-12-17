@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/react'
 import Header from './Header'
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, userId }) => {
   return (
     <Box minH='100vh' bg='gray.50'>
-      <Header />
+      <Header userId={userId} />
       <Box>{children}</Box>
     </Box>
   )
