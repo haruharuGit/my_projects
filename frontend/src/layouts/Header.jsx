@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Button, Avatar } from "@chakra-ui/react"
 import { useNavigate, useLocation } from "react-router-dom";
 import { logoutUser } from "../api/auth";
 
-const Header = () => {
+const Header = ({ userId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -13,8 +13,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await logoutUser();
-      console.log("Logout response:", response);
+      await logoutUser();
       navigate("/");
     } catch (error) {
       if (error.response) {
@@ -23,6 +22,10 @@ const Header = () => {
         console.log("Unexpected error:", error);
       }
     }
+  };
+
+  const handleAvatarClick = () => {
+    navigate(`/user/${userId}`);
   };
   
   return (
@@ -35,7 +38,7 @@ const Header = () => {
           {!shouldHideLogout && (
             <>
               <Button variant="ghost" onClick={handleLogout}>ログアウト</Button>
-              <Avatar size="sm" name="User" src="/placeholder.svg" />
+              <Avatar size="sm" name="User" src="/placeholder.svg" onClick={handleAvatarClick} />
             </>
           )}
         </Flex>
