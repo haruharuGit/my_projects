@@ -9,9 +9,9 @@ import {
   Text,
   VStack,
   Image,
-  useColorModeValue,
-  Link
+  useColorModeValue
 } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'; 
 
 export default function LandingPage() {
   const bgColor = useColorModeValue('pink.50', 'gray.900')
@@ -22,6 +22,7 @@ export default function LandingPage() {
     <Box minH="100vh" bg={bgColor}>
       <Container maxW="container.xl" h="100vh">
         <Grid templateColumns="repeat(2, 1fr)" gap={0} h="100%">
+          {/* 左側のテキストとボタン */}
           <GridItem display="flex" justifyContent="center" alignItems="center">
             <VStack spacing={8} align="center" maxW="80%">
               <Heading
@@ -50,7 +51,8 @@ export default function LandingPage() {
                 justify="center"
                 w="full"
               >
-                <Link href="/signup" passHref>
+                {/* 登録するボタン */}
+                <Link to="/signup">
                   <Button
                     size="lg"
                     bg={buttonBgColor}
@@ -64,7 +66,8 @@ export default function LandingPage() {
                     登録する
                   </Button>
                 </Link>
-                <Link href="/signin" passHref>
+                {/* ログインボタン */}
+                <Link to="/signin">
                   <Button
                     size="lg"
                     bg={buttonBgColor}
@@ -82,6 +85,7 @@ export default function LandingPage() {
             </VStack>
           </GridItem>
 
+          {/* 右側の画像 */}
           <GridItem display="flex" justifyContent="center" alignItems="center">
             <Box maxW="80%">
               <Image
