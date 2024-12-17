@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :posts, only: [:index, :create]
       resources :profiles, only: [:create, :show]
-      resources :users, only: [] do # RESTfullなルーティングの生成をしない
+      resources :users, only: [:show] do
         collection do
           get :check_user_id
         end
