@@ -1,55 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, FormHelperText } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useAuthUserId } from "../api/auth";
 
 
 export default function NewProfile() {
   const [nickname, setNickname] = useState('');
   const [kidBirthday, setKidBirthday] = useState('');
-  const [userId, setUserId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { userId, isLoading: authLoading, error } = useAuthUserId();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchGetUserId();
-  }
-  , []);
-
-  const accessToken = localStorage.getItem('access-token');
-  const client = localStorage.getItem('client');
-  const uid = localStorage.getItem('uid');
-  
-  if (!accessToken || !client || !uid) {
-    console.error('認証情報が見つかりません');
-    alert('認証情報が見つかりません。ログインし直してください。');
-    return;
+  if (authLoading) {
+    return <p>認証中...</p>;
   }
 
-  async function fetchGetUserId() {
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/check_user_id`, {
-        headers: {
-          'access-token': localStorage.getItem('access-token'),
-          'client': localStorage.getItem('client'),
-          'uid': localStorage.getItem('uid'),
-        }
-      });
-
-      if (!res.status || (res.status < 200 && res.status >= 300)) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      setUserId(res.data.id);
-    }
-    catch (error) {
-      console.error('Error creating credos:', error);
-      alert('ユーザーIDの取得に失敗しました。');
-    }
+  if (error) {
+    return <p>{error}</p>;
   }
 
-  async function fetchCreateProfile(event) {
+  const fetchCreateProfile = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -79,12 +51,10 @@ export default function NewProfile() {
 
       alert('プロフィールを登録しました。');
       navigate('/index');
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error creating profile:', error);
       alert('プロフィールの登録に失敗しました。');
-    }
-    finally {
+    } finally {
       setIsLoading(false);
       setNickname('');
       setKidBirthday('');
