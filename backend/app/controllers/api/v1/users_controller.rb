@@ -4,7 +4,14 @@ class Api::V1::UsersController < ApplicationController
   def show
     user = User.find(params[:id])
     profile = user.profile
-    posts = user.posts
+    posts = user.posts.map do |post|
+      {
+        id: post.id,
+        content: post.content,
+        image_url: post.image.attached? ? url_for(post.image) : "",
+        nickname: post.user.profile.nickname
+      }
+    end
     render json: { profile: profile, posts: posts }
   end
 
