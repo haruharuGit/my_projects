@@ -4,8 +4,8 @@ import { Box, VStack, HStack, Text, Image, Avatar } from '@chakra-ui/react'
 const Post = ({ post }) => {
   return (
     <Box 
-      bg='white' 
-      borderRadius='lg'
+      bg='#FDF6F0' 
+      borderRadius='32'
       p={4}
       shadow='sm'
       mb={4}
