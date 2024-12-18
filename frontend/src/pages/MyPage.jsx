@@ -43,23 +43,20 @@ const MyPage = () => {
 
   return (
     <MainLayout>
-      <VStack spacing={8} align="stretch" maxW="container.md" mx="auto" p={4}>
-        <Heading as="h1" size="lg" textAlign="center" mt={8}>
-          マイページ
-        </Heading>
+        <VStack spacing={8} align="center" maxW="container.md" mx="auto" p={4}>
+          <Heading as="h1" size="lg" textAlign="center" mt={8}>
+            {user.nickname}さんのマイページ
+          </Heading>
 
-        {user && (
-          <Flex align="center" gap={4}>
-            {/* <Avatar size="lg" name={user.name} src={user.avatar} bg="blue.500" /> */}
-            <Box>
-              <Text fontSize="xl" fontWeight="bold">
-                {user.nickname}
-              </Text>
-              <PostFeed posts={posts} />
-            </Box>
-          </Flex>
-        )}
-      </VStack>
+          {user && (
+            <Flex align="center" gap={4}>
+              {/* <Avatar size="lg" name={user.name} src={user.avatar} bg="blue.500" /> */}
+              <Box>
+                <PostFeed posts={posts} />
+              </Box>
+            </Flex>
+          )}
+        </VStack>
     </MainLayout>
   );
 };
