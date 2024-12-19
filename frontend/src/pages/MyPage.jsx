@@ -25,7 +25,7 @@ const MyPage = () => {
           setUser(response.data.profile);
           setPosts(response.data.posts);
         } catch (error) {
-          console.error("ユーザー情報の取得に失敗しました:", error);
+          console.error("ユーザー情報の取得に失敗しました:", error.message);
         }
       };
 
@@ -42,21 +42,22 @@ const MyPage = () => {
   }
 
   return (
-    <MainLayout>
+    <MainLayout userId={userId}>
+      {user && (
         <VStack spacing={8} align="center" maxW="container.md" mx="auto" p={4}>
           <Heading as="h1" size="lg" textAlign="center" mt={8}>
-            {user.nickname}さんのマイページ
+            {`${user.nickname}さんのマイページ`}
           </Heading>
-
-          {user && (
-            <Flex align="center" gap={4}>
-              {/* <Avatar size="lg" name={user.name} src={user.avatar} bg="blue.500" /> */}
-              <Box>
-                <PostFeed posts={posts} />
-              </Box>
-            </Flex>
-          )}
+          <Flex align="center" gap={4} mt={8}>
+            <Avatar size="xl" name={user.nickname} src={user.avatar} />
+          </Flex>
+          <Flex align="center" gap={4}>
+            <Box>
+              <PostFeed posts={posts} />
+            </Box>
+          </Flex>
         </VStack>
+      )}
     </MainLayout>
   );
 };
