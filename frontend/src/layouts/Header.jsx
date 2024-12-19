@@ -27,11 +27,15 @@ const Header = ({ userId }) => {
   const handleAvatarClick = () => {
     navigate(`/user/${userId}`);
   };
+
+  const handleLogoClick = () => {
+    navigate(userId ? "/index" : "/");
+  };
   
   return (
     <Box as="header" position="sticky" top={0} zIndex={50} border="none" bg="#FEBE6A" >
       <Flex h="14" alignItems="center" justifyContent="space-between" maxW="container.xl" mx="auto" px={4}>
-        <Heading as="h1" size="lg">
+        <Heading as="h1" size="lg" onClick={handleLogoClick} cursor="pointer">
           いや！シェア
         </Heading>
         <Flex alignItems="center" gap={4}>
