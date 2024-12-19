@@ -68,7 +68,6 @@ export const useAuthUserId = () => {
     const uid = localStorage.getItem("uid");
 
     if (!accessToken || !client || !uid) {
-      console.error("認証情報が見つかりません");
       alert("認証情報が見つかりません。ログインし直してください。");
       setError("Authentication token is missing");
       setIsLoading(false);
