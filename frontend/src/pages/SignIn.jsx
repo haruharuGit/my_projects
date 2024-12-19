@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Input, FormControl, FormLabel, Text } from '@chakra-ui/react';
+import { Box, Button, Input, FormControl, FormLabel, Text, Heading } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -74,9 +74,11 @@ export default function SignIn() {
             {message}
           </Text>
         )}
-        <h2>ログイン</h2>
+        <Heading as="h2" size="md" textAlign="center">
+          ログイン
+        </Heading>
         <form onSubmit={handleSubmit}>
-          <FormControl isRequired>
+          <FormControl isRequired mt="8">
             <FormLabel>メールアドレス (必須)</FormLabel>
             <Input
               value={email}
@@ -85,7 +87,7 @@ export default function SignIn() {
               required
             />
           </FormControl>
-          <FormControl isRequired>
+          <FormControl isRequired mt="4">
             <FormLabel>パスワード (必須)</FormLabel>
             <Input
               type="password"
@@ -99,6 +101,7 @@ export default function SignIn() {
             type="submit"
             colorScheme="orange"
             width="100%"
+            mt="8"
             isLoading={isLoading}
             disabled={!email || !password}
           >
