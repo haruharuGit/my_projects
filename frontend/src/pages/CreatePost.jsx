@@ -81,7 +81,7 @@ const CreatePost = () => {
   };
   
   return (
-    <MainLayout>
+    <MainLayout userId={userId}>
       <Box
         maxW="400px"
         mx="auto"
