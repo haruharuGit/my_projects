@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Input, FormControl, FormLabel, FormHelperText } from '@chakra-ui/react';
+import { Box, Button, Input, FormControl, FormLabel, FormHelperText, Avatar, Center } from '@chakra-ui/react';
 import MainLayout from '../layouts/MainLayout';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -9,6 +9,8 @@ import { useAuthUserId } from "../api/auth";
 export default function NewProfile() {
   const [nickname, setNickname] = useState('');
   const [kidBirthday, setKidBirthday] = useState('');
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { userId, isLoading: authLoading, error } = useAuthUserId();
   const navigate = useNavigate();
@@ -21,6 +23,14 @@ export default function NewProfile() {
     return <p>{error}</p>;
   }
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
   const fetchCreateProfile = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -31,18 +41,21 @@ export default function NewProfile() {
         return;
       }
 
-      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/profiles`, {
-        profile: {
-          nickname: nickname,
-          kid_birthday: kidBirthday,
-          user_id: userId,
-        },},
-        {
-          headers: {
-            'access-token': localStorage.getItem('access-token'),
-            'client': localStorage.getItem('client'),
-            'uid': localStorage.getItem('uid'),
-        }
+      const formData = new FormData();
+      formData.append("profile[nickname]", nickname);
+      formData.append("profile[kid_birthday]", kidBirthday);
+      formData.append("profile[user_id]", userId);
+      if (avatarFile) {
+        formData.append("profile[avatar]", avatarFile)
+      }
+
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/v1/profiles`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'access-token': localStorage.getItem('access-token'),
+          'client': localStorage.getItem('client'),
+          'uid': localStorage.getItem('uid'),
+        },
       });
 
       if (!res.status || (res.status < 200 || res.status >= 300)) {
@@ -58,8 +71,10 @@ export default function NewProfile() {
       setIsLoading(false);
       setNickname('');
       setKidBirthday('');
+      setAvatarFile(null);
+      setAvatarPreview(null);
     }
-  }
+  };
 
   return (
     <MainLayout>
@@ -73,6 +88,25 @@ export default function NewProfile() {
         boxShadow="md"
       >
         <form onSubmit={fetchCreateProfile}>
+          <FormControl mb="4">
+            <FormLabel>プロフィール画像</FormLabel>
+            <Center>
+              <Avatar
+                size="xl"
+                src={avatarPreview}
+                mb="4"
+                cursor="pointer"
+                onClick={() => document.getElementById('avatarInput').click}
+              />
+            </Center>
+            <Input
+              id="avatarInput"
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              display="none"
+            />
+          </FormControl>
           <FormControl mb="4" isRequired>
             <FormLabel>ニックネーム (必須)</FormLabel>
             <Input
