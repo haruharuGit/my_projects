@@ -14,7 +14,7 @@ class Api::V1::ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.require(:profile).permit(:nickname, :kid_birthday).merge(user_id: @user.id)
+    params.require(:profile).permit(:nickname, :kid_birthday, :avatar).merge(user_id: @user.id)
   end
 
   def set_user
