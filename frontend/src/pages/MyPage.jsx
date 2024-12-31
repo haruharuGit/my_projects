@@ -23,6 +23,7 @@ const MyPage = () => {
           const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/${userId}`);
           setUser(response.data.profile);
           setPosts(response.data.posts);
+          console.log(response.data.profile)
         } catch (error) {
           console.error("ユーザー情報の取得に失敗しました:", error.message);
         }
@@ -48,7 +49,7 @@ const MyPage = () => {
             {`${user.nickname}さんのマイページ`}
           </Heading>
           <Flex align="center" gap={4} mt={8}>
-            <Avatar size="xl" name={user.nickname} src={user.avatar} />
+            <Avatar size="xl" name={user.nickname} src={user.avatar_url} />
           </Flex>
           <Flex align="center" gap={4}>
             <Box>
