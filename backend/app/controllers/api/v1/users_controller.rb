@@ -3,7 +3,12 @@ class Api::V1::UsersController < ApplicationController
 
   def show
     user = User.find(params[:id])
-    profile = user.profile
+    profile = {
+      id: user.profile.id,
+      nickname: user.profile.nickname,
+      kid_birthday: user.profile.kid_birthday,
+      avatar_url: user.profile.avatar.attached? ? url_for(user.profile.avatar) : ""
+    }
     posts = user.posts.map do |post|
       {
         id: post.id,
