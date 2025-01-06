@@ -12,7 +12,7 @@ const Post = ({ post }) => {
     >
       <VStack align='stretch' spacing={3}>
         <HStack>
-          <Avatar size='sm' name={post.user ? post.user.name : 'Anonymous'} src={post.user ? post.user.avatar_url : ''} />
+          <Avatar size='sm' src={post.avatar_url ? post.avatar_url : "" } />
           <Text fontWeight='bold'>{post.nickname ? post.nickname : 'Anonymous'}</Text>
         </HStack>
         
