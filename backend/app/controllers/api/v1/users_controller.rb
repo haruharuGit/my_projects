@@ -14,7 +14,8 @@ class Api::V1::UsersController < ApplicationController
         id: post.id,
         content: post.content,
         image_url: post.image.attached? ? url_for(post.image) : "",
-        nickname: post.user.profile.nickname
+        nickname: post.user.profile.nickname,
+        avatar_url: user.profile.avatar.attached? ? url_for(user.profile.avatar) : ""
       }
     end
     render json: { profile: profile, posts: posts }
