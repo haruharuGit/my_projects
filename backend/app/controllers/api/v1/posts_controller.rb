@@ -26,7 +26,8 @@ class Api::V1::PostsController < ApplicationController
       id: post.id,
       content: post.content,
       image_url: post.image.attached? ? url_for(post.image) : "",# 画像がなければ空文字を返すことで投稿がないを防ぐ
-      nickname: post.user.profile.nickname
+      nickname: post.user.profile.nickname,
+      avatar_url: post.user.profile.avatar.attached? ? url_for(post.user.profile.avatar) : ""
     }
   end
 end
