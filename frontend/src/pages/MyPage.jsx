@@ -5,6 +5,7 @@ import {
   Heading,
   Avatar,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import MainLayout from "../layouts/MainLayout";
 import { useAuthUserId } from "../api/auth";
@@ -23,6 +24,7 @@ const MyPage = () => {
           const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/v1/users/${userId}`);
           setUser(response.data.profile);
           setPosts(response.data.posts);
+          console.log(response.data.profile);
         } catch (error) {
           console.error("ユーザー情報の取得に失敗しました:", error.message);
         }
@@ -40,6 +42,30 @@ const MyPage = () => {
     return <p>Error: {error}</p>;
   }
 
+  const ageCalculation = (kidBirthday) => {
+    const birthday = new Date(kidBirthday);
+    const today = new Date();
+
+    let years = today.getFullYear() - birthday.getFullYear();
+    let months = today.getMonth() - birthday.getMonth();
+
+    // 月がマイナス(今年の誕生日が来ていない)の場合
+    if (months < 0) {
+      years -= 1;
+      months += 12
+    }
+
+    // 月が0、今日の日が誕生日の日より前の場合(誕生月だが誕生日が来ていない)の場合
+    if (months === 0 && today.getDate() < birthday.getDate()) {
+      years -= 1;
+      months = 11;
+    }
+
+    return `子どもは${years}歳${months}ヶ月です`;
+  };
+
+  
+
   return (
     <MainLayout userId={userId}>
       {user && (
@@ -49,6 +75,9 @@ const MyPage = () => {
           </Heading>
           <Flex align="center" gap={4} mt={8}>
             <Avatar size="xl" name={user.nickname} src={user.avatar_url} />
+            <Text fontSize="lg" color="gray.700">
+              {ageCalculation(user.kid_birthday)}
+            </Text>
           </Flex>
           <Flex align="center" gap={4}>
             <Box>
