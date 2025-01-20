@@ -91,21 +91,15 @@ export default function NewProfile() {
           <FormControl mb="4">
             <FormLabel>プロフィール画像</FormLabel>
             <Center>
-              <Avatar
+              <Input
                 size="xl"
                 src={avatarPreview}
                 mb="4"
                 cursor="pointer"
-                onClick={() => document.getElementById('avatarInput').click}
+                type="file"
+                onChange={handleAvatarChange}
               />
             </Center>
-            <Input
-              id="avatarInput"
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              display="none"
-            />
           </FormControl>
           <FormControl mb="4" isRequired>
             <FormLabel>ニックネーム (必須)</FormLabel>
