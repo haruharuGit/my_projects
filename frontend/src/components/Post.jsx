@@ -1,7 +1,12 @@
-import { Box, VStack, HStack, Text, Image, Avatar } from '@chakra-ui/react'
-// import PostReactions from './PostReactions'
+import { Box, VStack, HStack, Text, Image, Avatar, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody } from '@chakra-ui/react'
 
 const Post = ({ post }) => {
+  const emojis = ["👍", "🩷", "😂", "😮", "😢"];
+
+  const onClickReaction = (emoji) => {
+    alert(emoji);
+  };
+
   return (
     <Box 
       bg='#FDF6F0' 
@@ -27,8 +32,17 @@ const Post = ({ post }) => {
             fallbackSrc="https://via.placeholder.com/300x200?text=Image+not+available"
           />
         )}
-        
-        {/* <PostReactions post={post} /> */}
+
+        <Popover>
+          <PopoverTrigger>
+            <Button w='20' colorScheme='yellow'>応援する</Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverBody>{emojis.map((emoji) => (<Button key={emoji} onClick={() => onClickReaction(emoji)}>{emoji}</Button>))}</PopoverBody>
+          </PopoverContent>
+        </Popover>
       </VStack>
     </Box>
   )
