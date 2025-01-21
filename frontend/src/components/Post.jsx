@@ -1,10 +1,14 @@
 import { Box, VStack, HStack, Text, Image, Avatar, Button, Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverBody } from '@chakra-ui/react'
+import { useState } from 'react';
 
 const Post = ({ post }) => {
   const emojis = ["👍", "🩷", "😂", "😮", "😢"];
+  const [selectedEmojis, setSelectedEmojis] = useState([]);
 
   const onClickReaction = (emoji) => {
-    alert(emoji);
+    if(!selectedEmojis.includes(emoji)) {
+      setSelectedEmojis((prev) => [...prev, emoji]);
+    }
   };
 
   return (
@@ -32,6 +36,12 @@ const Post = ({ post }) => {
             fallbackSrc="https://via.placeholder.com/300x200?text=Image+not+available"
           />
         )}
+
+        <HStack mt={2}>
+          {selectedEmojis.map((emoji, index) => (
+            <Text key={index} fontSize="2xl">{emoji}</Text>
+          ))}
+        </HStack>
 
         <Popover>
           <PopoverTrigger>
